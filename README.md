@@ -1,4 +1,3 @@
-# PRJ301_FinalProject_JSTL
 # The project contains:
 1. Database
 2. Sign in, Sign up, Logout, Validation
