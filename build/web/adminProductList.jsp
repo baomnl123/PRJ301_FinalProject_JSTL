@@ -49,6 +49,67 @@
             </div>
         </section>
 
+        <div class="dash-content">
+            <div class="title">
+                <i class="uil uil-tachometer-fast-alt"></i>
+                <span class="text">Add new Product</span>
+            </div>
+            <section id="cart" class="section-p1">
+                <table width="100%">
+                    <thead>
+                        <tr>
+                            <td>Image</td>
+                            <td>Product ID</td>
+                            <td>Name</td>
+                            <td>Quantity</td>
+                            <td>Price</td>
+                            <td>Add</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <form action="MainController">
+                        <tr>
+                            <td>
+                                <input style="width: 200px;
+                                       padding: 10px 5px 10px 15px;" 
+                                       type="text" name="image1" placeholder="Image Link" class="input">
+                            </td>
+                            <td>
+                                <input style="width: 100px;
+                                       padding: 10px 5px 10px 15px;"
+                                       type="text" name="productID" placeholder="ID" class="input">
+                            </td>
+                            <td>
+                                <input style="width: 200px;
+                                       padding: 10px 5px 10px 15px;"
+                                       type="text" name="productName" placeholder="Name" class="input">
+                            </td>
+                            <td>
+                                <input style="width: 100px;
+                                       padding: 10px 5px 10px 15px;"
+                                       type="number" name="quantity" placeholder="Quantity" class="input" min="0">
+                            </td>
+                            <td>
+                                <input style="width: 100px;
+                                       padding: 10px 5px 10px 15px;"
+                                       type="number" name="price" placeholder="Price" class="input" min="0">
+                            </td>
+                            <td>
+                                <button style="border: none;
+                                        color: blue;
+                                        cursor: pointer;" 
+                                        type="submit" name="action" value="AddProduct">
+                                    <i class="fa-solid fa-plus"></i>
+                                </button>
+                            </td>
+                        </tr>
+
+                    </form>
+                    </tbody>
+                </table>
+            </section>
+        </div>
+
         <h3 style="text-align: center;
             font-size: 25px; 
             color: red">${requestScope.MESSAGE}</h3>

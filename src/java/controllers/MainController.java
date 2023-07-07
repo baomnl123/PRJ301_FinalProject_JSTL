@@ -34,7 +34,7 @@ public class MainController extends HttpServlet {
     private static final String CART_PAGE_CONTROLLER = "CartController";
     private static final String ORDER_PAGE = "OrderPage";
     private static final String ORDER_CONTROLLER = "OrderController";
-    
+
     private static final String ADMIN_PAGE = "AdminPage";
     private static final String ADMIN_CONTROLLER = "AdminController";
     private static final String ADMIN_PRODUCT_PAGE = "AdminProductPage";
@@ -57,21 +57,22 @@ public class MainController extends HttpServlet {
     private static final String CHECKOUT = "CheckOut";
     private static final String CHECKOUT_CONTROLLER = "CheckOutController";
 
+    private static final String ADD_USER = "AddUser";
     private static final String ADD_PRODUCT = "AddProduct";
-    private static final String ADD_PRODUCT_CONTROLLER = "AddProductController";
+    private static final String ADMIN_ADD_PRODUCT_CONTROLLER = "AdminAddProductController";
 
     private static final String REMOVE_USER = "RemoveUser";
     private static final String REMOVE_PRODUCT = "RemoveProduct";
     private static final String REMOVE_USER_CONTROLLER = "RemoveUserController";
     private static final String REMOVE_PRODUCT_CONTROLLER = "RemoveProductController";
-    
+
     private static final String ADD_CART = "AddCart";
     private static final String ADD_CART_CONTROLLER = "AddCartController";
     private static final String REMOVE_CART = "RemoveCart";
     private static final String REMOVE_CART_CONTROLLER = "RemoveCartController";
     private static final String EDIT_CART = "EditCart";
     private static final String EDIT_CART_CONTROLLER = "EditCartController";
-    
+
     private static final String EDIT_USER = "EditUser";
     private static final String EDIT_PRODUCT = "EditProduct";
     private static final String EDIT_USER_CONTROLLER = "EditUserController";
@@ -112,11 +113,13 @@ public class MainController extends HttpServlet {
                 url = SEARCH_USER_CONTROLLER;
             } else if (SEARCH_PRODUCTS.equals(action)) {
                 url = SEARCH_PRODUCT_CONTROLLER;
+            } else if (ADD_USER.equals(action)) {
+                url = SIGNUP_CONTROLLER;
             } else if (ADD_PRODUCT.equals(action)) {
-                url = ADD_PRODUCT_CONTROLLER;
+                url = ADMIN_ADD_PRODUCT_CONTROLLER;
             } else if (REMOVE_PRODUCT.equals(action)) {
                 url = REMOVE_PRODUCT_CONTROLLER;
-            }else if (EDIT_PRODUCT.equals(action)) {
+            } else if (EDIT_PRODUCT.equals(action)) {
                 url = EDIT_PRODUCT_CONTROLLER;
             } else if (EDIT_USER.equals(action)) {
                 url = EDIT_USER_CONTROLLER;

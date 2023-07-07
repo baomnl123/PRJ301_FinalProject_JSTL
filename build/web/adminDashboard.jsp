@@ -27,11 +27,10 @@
 
             <div class="search-box">
                 <form action="MainController">
-                    <button type="submit" name="action" value="SearchProduct">
+                    <button type="submit" name="action" value="SearchUser">
                         <i class="uil uil-search"></i>
                     </button>
                     <input type="text" name="Search" value="${param.search}" placeholder="Search here...">
-                    <input type="hidden" name="SearchPage" value="SearchUser">
                 </form>
             </div>
 
@@ -63,24 +62,79 @@
                         <i class="uil uil-user"></i>
                         <span class="text">Total Users</span>
                         <span class="number"><c:out value="${totalUsers}"></c:out></span>
-                    </div>
-                    <div class="box box2">
-                        <i class="uil uil-comments"></i>
-                        <span class="text">Total Products</span>
-                        <span class="number"><c:out value="${totalProducts}"></c:out></span>
-                    </div>
-                    <div class="box box3">
-                        <i class="uil uil-clipboard-notes"></i>
-                        <span class="text">Total Orders</span>
-                        <span class="number">10,120</span>
+                        </div>
+                        <div class="box box2">
+                            <i class="uil uil-comments"></i>
+                            <span class="text">Total Products</span>
+                            <span class="number"><c:out value="${totalProducts}"></c:out></span>
+                        </div>
+                        <div class="box box3">
+                            <i class="uil uil-clipboard-notes"></i>
+                            <span class="text">Total Orders</span>
+                            <span class="number">10,120</span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <h3 style="text-align: center;
-            font-size: 25px; 
-            color: red">${requestScope.MESSAGE}</h3>
+            <div class="dash-content">
+                <div class="title">
+                    <i class="uil uil-tachometer-fast-alt"></i>
+                    <span class="text">Add new User</span>
+                </div>
+                <section id="cart" class="section-p1">
+                    <table width="100%">
+                        <thead>
+                            <tr>
+                                <td>User ID</td>
+                                <td>Full Name</td>
+                                <td>Password</td>
+                                <td>Role ID</td>
+                                <td>Add</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <form action="MainController">
+                            <tr>
+                                <td>
+                                    <input style="width: 200px;
+                                           padding: 10px 5px 10px 15px;" 
+                                           type="text" name="userID" placeholder="User ID" class="input">
+                                </td>
+                                <td>
+                                    <input style="width: 200px;
+                                           padding: 10px 5px 10px 15px;"
+                                           type="text" name="fullName" placeholder="Full Name" class="input">
+                                </td>
+                                <td>
+                                    <input style="width: 200px;
+                                           padding: 10px 5px 10px 15px;"
+                                           type="password" name="password" placeholder="Password" class="password">
+                                </td>
+                                <td>
+                                    <input style="width: 100px;
+                                           padding: 10px 5px 10px 15px;"
+                                           type="text" name="roleID" placeholder="Role ID">
+                                </td>
+                                <td>
+                                    <button style="border: none;
+                                            color: blue;
+                                            cursor: pointer;" 
+                                            type="submit" name="action" value="AddUser">
+                                        <i class="fa-solid fa-plus"></i>
+                                    </button>
+                                </td>
+                            </tr>
+
+                        </form>
+                        </tbody>
+                    </table>
+                </section>
+            </div>
+
+            <h3 style="text-align: center;
+                font-size: 25px; 
+                color: red">${requestScope.MESSAGE}</h3>
 
         <c:if test="${requestScope.USER_LIST != null}">
             <c:if test="${not empty requestScope.USER_LIST}">
@@ -130,7 +184,6 @@
                                         </button>
                                     </td>
                                 </tr>
-
                             </form>
                         </c:forEach>
                         </tbody>

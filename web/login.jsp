@@ -101,6 +101,8 @@
                                 <i class='bx bx-hide eye-icon'></i>
                             </div>
 
+                            <input type="hidden" name="roleID" value="US">
+                            
                             <div class="field input-field">
                                 <input type="password" name="confirmPassword" placeholder="Confirm Your Password" class="password" required="">
                                 <i class='bx bx-hide eye-icon'></i>

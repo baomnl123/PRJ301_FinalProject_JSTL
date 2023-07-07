@@ -7,12 +7,12 @@ package controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import user.UserDAO;
 import user.UserDTO;
 
@@ -20,11 +20,11 @@ import user.UserDTO;
  *
  * @author mglon
  */
-@WebServlet(name = "SearchUserController", urlPatterns = {"/SearchUserController"})
-public class SearchUserController extends HttpServlet {
+@WebServlet(name = "RemoveUserController", urlPatterns = {"/RemoveUserController"})
+public class RemoveUserController extends HttpServlet {
 
-    private static final String ERROR = "adminDashboard.jsp";
-    private static final String SUCCESS = "adminDashboard.jsp";
+    private static final String ERROR = "AdminController";
+    private static final String SUCCESS = "AdminController";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -32,18 +32,24 @@ public class SearchUserController extends HttpServlet {
 
         String url = ERROR;
         try {
-            String search = request.getParameter("Search");
+            String userID = request.getParameter("userID");
+            HttpSession session = request.getSession();
+            UserDTO loginUser = (UserDTO) session.getAttribute("LOGIN_USER");
             UserDAO dao = new UserDAO();
-            List<UserDTO> listUser = dao.getListUser(search);
 
-            if (listUser.size() > 0) {
-                request.setAttribute("USER_LIST", listUser);
-                url = SUCCESS;
-            } else {
-                request.setAttribute("SEARCH_ERROR", "Cannot find your search!");
+            if (loginUser != null) {
+                if (loginUser.getUserID().equals(userID)) {
+                    request.setAttribute("ERROR", "This user is currently used. You can't delete!");
+                } else {
+                    boolean checkDelete = dao.delete(userID);
+                    if (checkDelete) {
+                        url = SUCCESS;
+                    }
+                }
             }
+
         } catch (Exception e) {
-            log("Error at SearchUserController: " + e.toString());
+            log("Error at DeleteController: " + e.toString());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }

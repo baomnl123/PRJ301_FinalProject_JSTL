@@ -7,43 +7,51 @@ package controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import user.UserDAO;
-import user.UserDTO;
+import product.ProductDAO;
+import product.ProductDTO;
 
 /**
  *
  * @author mglon
  */
-@WebServlet(name = "SearchUserController", urlPatterns = {"/SearchUserController"})
-public class SearchUserController extends HttpServlet {
+@WebServlet(name = "AdminAddProductController", urlPatterns = {"/AdminAddProductController"})
+public class AdminAddProductController extends HttpServlet {
 
-    private static final String ERROR = "adminDashboard.jsp";
-    private static final String SUCCESS = "adminDashboard.jsp";
+    private static final String ADMIN_PRODUCT_LIST = "AdminProductController";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        String url = ERROR;
+        String url = ADMIN_PRODUCT_LIST;
         try {
-            String search = request.getParameter("Search");
-            UserDAO dao = new UserDAO();
-            List<UserDTO> listUser = dao.getListUser(search);
+            String productID = request.getParameter("productID");
+            String image = request.getParameter("image1");
+            String name = request.getParameter("productName");
+            int quantity = Integer.parseInt(request.getParameter("quantity"));
+            double price = Double.parseDouble(request.getParameter("price"));
+            boolean check = true;
+            ProductDAO dao = new ProductDAO();
 
-            if (listUser.size() > 0) {
-                request.setAttribute("USER_LIST", listUser);
-                url = SUCCESS;
-            } else {
-                request.setAttribute("SEARCH_ERROR", "Cannot find your search!");
+            boolean checkDuplicate = dao.checkDuplicate(productID);
+            if (checkDuplicate) {
+                check = false;
+            }
+            if (check) {
+                ProductDTO product = new ProductDTO(productID, name, price, quantity, image);
+                boolean checkInsert = dao.insert(product);
+                
+                if (!checkInsert) {
+                    request.setAttribute("ERROR", "Unknown error!");
+                }
             }
         } catch (Exception e) {
-            log("Error at SearchUserController: " + e.toString());
+            log("Error at AddProductController: " + e.toString());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }

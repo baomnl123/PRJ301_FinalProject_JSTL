@@ -284,4 +284,24 @@ public class UserDAO {
         }
         return checkUpdate;
     }
+
+    public boolean delete(String userID) throws SQLException {
+        boolean checkDelete = false;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        
+        try {
+            conn = DBUtils.getConnection();
+            if(conn != null) {
+                ptm = conn.prepareStatement(DELETE_USER);
+                ptm.setString(1, userID);
+                checkDelete = ptm.executeUpdate() > 0 ? true : false;
+            }
+        } catch (Exception e) {
+        } finally {
+            if(ptm != null) ptm.close();
+            if(conn != null) conn.close();
+        }
+        return checkDelete;
+    }
 }

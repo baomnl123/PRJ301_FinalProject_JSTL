@@ -27,6 +27,8 @@ public class ProductDAO {
     private static final String GET_PRODUCT_QUANTITY = "SELECT quantity FROM tblProduct WHERE productID=? AND Status=1";
     private static final String UPDATE = "UPDATE tblProduct SET price=?, quantity=? WHERE productID=?";
     private static final String DELETE = "UPDATE tblProduct SET Status=0 WHERE productID=?";
+    private static final String ADD_PRODUCT = "INSERT INTO tblProduct(productID, name, price, quantity, Image1, Status) VALUES(?,?,?,?,?,1)";
+    private static final String CHECK_DUPLICATE = "SELECT name FROM tblProduct WHERE productID=?";
 
     public String getTotalProducts() throws SQLException {
         String totalProducts = "0";
@@ -305,5 +307,62 @@ public class ProductDAO {
             }
         }
         return checkDelete;
+    }
+
+    public boolean checkDuplicate(String productID) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(CHECK_DUPLICATE);
+                ptm.setString(1, productID);
+                rs = ptm.executeQuery();
+
+                if (rs.next()) {
+                    check = true;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
+    }
+
+    public boolean insert(ProductDTO product) throws SQLException {
+        boolean checkUpdate = false;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        
+        try {
+            conn = DBUtils.getConnection();
+            if(conn != null) {
+                ptm = conn.prepareStatement(ADD_PRODUCT);
+                ptm.setString(1, product.getProductID());
+                ptm.setString(2, product.getName());
+                ptm.setDouble(3, product.getPrice());
+                ptm.setInt(4, product.getQuantity());
+                ptm.setString(5, product.getImage1());
+                checkUpdate = ptm.executeUpdate() > 0 ? true : false;
+            }
+        } catch (Exception e) {
+        } finally {
+            if(ptm != null) ptm.close();
+            if(conn != null) conn.close();
+        }
+        return checkUpdate;
     }
 }
