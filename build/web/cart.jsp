@@ -41,6 +41,7 @@
         <h3 style="text-align: center;
             font-size: 25px; 
             color: red">${requestScope.MESSAGE}</h3>
+            
         <form action="MainController">
             <section id="cart" class="section-p1">
                 <c:if test="${sessionScope.CART != null}">

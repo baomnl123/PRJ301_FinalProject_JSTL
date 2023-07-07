@@ -4,15 +4,10 @@
 <%@page import="user.UserDTO"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%
-    UserDAO userDAO = new UserDAO();
-    ProductDAO productDAO = new ProductDAO();
-    UserDTO loginUser = (UserDTO) session.getAttribute("LOGIN_USER");
-    if (loginUser == null || !"AD".equals(loginUser.getRoleID())) {
-        response.sendRedirect("index.jsp");
-        return;
-    }
-%>
+
+<c:if test="${sessionScope.LOGIN_USER == null || sessionScope.LOGIN_USER.roleID ne 'AD'}">
+    <c:redirect url="index.jsp"></c:redirect>
+</c:if>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -63,15 +58,10 @@
             </div>
         </section>
 
-        <%
-            String message = (String) request.getAttribute("MESSAGE");
-            if (message == null) {
-                message = "";
-            }
-        %>
         <h3 style="text-align: center;
             font-size: 25px; 
-            color: red"><%= message%></h3>
+            color: red">${requestScope.MESSAGE}</h3>
+            
             <section id="cart" class="section-p1">
 
                 <table width="100%">
