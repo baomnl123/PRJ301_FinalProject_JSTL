@@ -40,10 +40,12 @@
         <h3 style="text-align: center;
             font-size: 25px; 
             color: red">${requestScope.MESSAGE}</h3>
+            
         <c:if test="${requestScope.ORDER_LIST != null}">
 
-            <c:forEach var="orderID" varStatus="totalOrders" items="${requestScope.ORDER_LIST}">
-                ${totalOrders.count}
+            <c:set var="totalOrders" value="0"/>
+            <c:forEach var="orderID" items="${requestScope.ORDER_LIST}">
+                <c:set var="totalOrders" value="${totalOrders + 1}"/>
                 <section id="cart" class="section-p1">
                     <h3>Your order ID: #${orderID.orderID}</h3>
                     <table width="100%">
