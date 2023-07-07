@@ -45,7 +45,6 @@
         <form action="MainController">
             <section id="cart" class="section-p1">
                 <c:if test="${sessionScope.CART != null}">
-
                     <table width="100%">
                         <thead>
                             <tr>

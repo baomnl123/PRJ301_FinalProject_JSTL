@@ -7,6 +7,7 @@ package controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,36 +20,27 @@ import product.Cart;
  *
  * @author mglon
  */
-@WebServlet(name = "RemoveCartController", urlPatterns = {"/RemoveCartController"})
-public class RemoveCartController extends HttpServlet {
+@WebServlet(name = "CartController", urlPatterns = {"/CartController"})
+public class CartController extends HttpServlet {
 
     private static final String ERROR = "cart.jsp";
     private static final String SUCCESS = "cart.jsp";
-
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
+        
         String url = ERROR;
         try {
-            String id = request.getParameter("id");
             HttpSession session = request.getSession();
             Cart cart = (Cart) session.getAttribute("CART");
-
-            if (cart != null) {
-                boolean check = cart.remove(id);
-                if (check) {
-                    if (cart.getCart().size() == 0) {
-                        request.setAttribute("MESSAGE", "Your cart are still empty! Please add some products!");
-                        cart = null;
-                    }
-                    session.setAttribute("CART", cart);
-                    url = SUCCESS;
-                }
+            
+            if(cart == null) {
+                request.setAttribute("MESSAGE", "Your cart are still empty! Please add some products!");
             }
         } catch (Exception e) {
-            log("Error at RemoveCartController: " + e.toString());
-        }finally {
+            log("Error at CartController: " + e.toString());
+        } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }
     }

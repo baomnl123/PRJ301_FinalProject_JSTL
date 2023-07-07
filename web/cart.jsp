@@ -38,12 +38,10 @@
             <p>Save more with coupons & up to 70% off!</p>
         </section>
 
-        <c:if test="${sessionScope.CART == null}">
-            <h3 style="text-align: center;
-                font-size: 25px; 
-                color: red">Your cart are still empty! Please add some Product</h3>
-        </c:if>
-
+        <h3 style="text-align: center;
+            font-size: 25px; 
+            color: red">${requestScope.MESSAGE}</h3>
+            
         <form action="MainController">
             <section id="cart" class="section-p1">
                 <c:if test="${sessionScope.CART != null}">

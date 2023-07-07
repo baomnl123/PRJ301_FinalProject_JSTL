@@ -31,7 +31,7 @@ public class MainController extends HttpServlet {
     private static final String CONTACT_PAGE = "ContactPage";
     private static final String CONTACT_PAGE_VIEW = "contact.jsp";
     private static final String CART_PAGE = "CartPage";
-    private static final String CART_PAGE_VIEW = "cart.jsp";
+    private static final String CART_PAGE_CONTROLLER = "CartController";
     private static final String ORDER_PAGE = "OrderPage";
     private static final String ORDER_CONTROLLER = "OrderController";
     
@@ -93,7 +93,7 @@ public class MainController extends HttpServlet {
             } else if (PRODUCT_PAGE.equals(action)) {
                 url = PRODUCT_CONTROLLER;
             } else if (CART_PAGE.equals(action)) {
-                url = CART_PAGE_VIEW;
+                url = CART_PAGE_CONTROLLER;
             } else if (CONTACT_PAGE.equals(action)) {
                 url = CONTACT_PAGE_VIEW;
             } else if (LOGIN_PAGE.equals(action)) {
