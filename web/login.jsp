@@ -89,20 +89,25 @@
                         <header>Signup</header>
                         <form action="MainController">
                             <div class="field input-field">
-                                <input type="text" placeholder="User ID" class="input">
+                                <input type="text" name="userID" placeholder="User ID" class="input" required="">
+                            </div>
+                            
+                            <div class="field input-field">
+                                <input type="text" name="fullName" placeholder="Full Name" class="input" required="">
                             </div>
 
                             <div class="field input-field">
-                                <input type="password" placeholder="Create password" class="password">
+                                <input type="password" name="password" placeholder="Password" class="password" required="">
+                                <i class='bx bx-hide eye-icon'></i>
                             </div>
 
                             <div class="field input-field">
-                                <input type="password" placeholder="Confirm password" class="password">
+                                <input type="password" name="confirmPassword" placeholder="Confirm Your Password" class="password" required="">
                                 <i class='bx bx-hide eye-icon'></i>
                             </div>
 
                             <div class="field button-field">
-                                <button>Signup</button>
+                                <button type="submit" name="action" value="Signup">Signup</button>
                             </div>
                         </form>
 

@@ -20,7 +20,7 @@ import java.util.List;
 public class UserDAO {
 
     private static final String LOGIN = "SELECT fullName, roleID FROM tblUsers WHERE userID=? AND password=?";
-    private static final String SIGNUP = "INSERT INTO tblUsers(userID, fullName, password, roleID, status) VALUES(?,?,?,?,?)";
+    private static final String SIGNUP = "INSERT INTO tblUsers(userID, fullName, password, roleID, status) VALUES(?,?,?,?,1)";
     private static final String SEARCH_USER = "SELECT userID, fullName, roleID FROM tblUsers WHERE fullName like ? AND status=1";
     private static final String SEARCH_ALL_USER = "SELECT userID, fullName, roleID FROM tblUsers WHERE status=1";
     private static final String SEARCH_SPECIFIC_USER = "SELECT userID, fullName, roleID FROM tblUsers WHERE userID=?";
@@ -225,6 +225,62 @@ public class UserDAO {
             if (conn != null) {
                 conn.close();
             }
+        }
+        return checkUpdate;
+    }
+
+    public boolean checkDuplicate(String userID) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(CHECK_DUPLICATE);
+                ptm.setString(1, userID);
+                rs = ptm.executeQuery();
+
+                if (rs.next()) {
+                    check = true;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
+    }
+
+    public boolean insert(UserDTO user) throws SQLException {
+        boolean checkUpdate = false;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        
+        try {
+            conn = DBUtils.getConnection();
+            if(conn != null) {
+                ptm = conn.prepareStatement(SIGNUP);
+                ptm.setString(1, user.getUserID());
+                ptm.setString(2, user.getFullName());
+                ptm.setString(3, user.getPassword());
+                ptm.setString(4, user.getRoleID());
+                checkUpdate = ptm.executeUpdate() > 0 ? true : false;
+            }
+        } catch (Exception e) {
+        } finally {
+            if(ptm != null) ptm.close();
+            if(conn != null) conn.close();
         }
         return checkUpdate;
     }
