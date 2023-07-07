@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="product.ProductDAO"%>
 <%@page import="product.ProductDTO"%>
 <%@page import="java.util.List"%>
@@ -11,26 +12,20 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
         <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
         <link rel="stylesheet" href="css/index.css">
-        <title>Document</title>
+        <title>TechWithMe - Shop</title>
     </head>
 
     <body>
         <section id="header">
             <a href="#"><img src="img/newLogo.png" style="width: 60px;" class="logo" alt=""></a>
 
-            <%
-                String search = request.getParameter("SearchProducts");
-                if (search == null) {
-                    search = "";
-                }
-            %>
 
             <div class="search-box">
                 <form action="MainController">
                     <button type="submit" name="action" value="SearchProduct">
                         <i class="uil uil-search"></i>
                     </button>
-                    <input type="text" name="Search" value="<%= search%>" placeholder="Search here...">
+                    <input type="text" name="Search" value="${param.search}" placeholder="Search here...">
                     <input type="hidden" name="SearchPage" value="SearchUser">
                 </form>
             </div>
@@ -59,52 +54,42 @@
         <!-- Add more product to this section -->
         <section id="product1" class="section-p1">
 
-            <%
-                String message = (String) request.getAttribute("MESSAGE");
-                if (message == null) {
-                    message = "";
-                }
-            %>
-            <h3><%= message%></h3>
+            <h3 style="text-align: center;
+                font-size: 25px; 
+                color: red">${requestScope.MESSAGE}</h3>
 
             <div class="pro-container">
-                <%
-                    List<ProductDTO> listProduct = (List<ProductDTO>) request.getAttribute("LIST_PRODUCT");
-                    if (listProduct != null) {
-                        if (listProduct.size() > 0) {
-                            for (ProductDTO product : listProduct) {
-                %>
-                <div class="pro">
-                    <form action="MainController">
-                        <a href="MainController?action=ProductPage&productId=<%= product.getProductID()%>">
-                            <!--How to get ProductID to forward to product.jsp?-->
-                            <img src="<%= product.getImage1()%>" alt="">
-                            <div class="des">
-                                <span><%= product.getBrand()%></span>
-                                <h5><%= product.getName()%></h5>
-                                <div class="star">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                </div>
-                                <h4>$<%= product.getPrice()%></h4>
+                <c:set var="listProduct" value="${requestScope.LIST_PRODUCT}"/>
+                <c:if test="${listProduct != null}">
+                    <c:if test="${not empty listProduct}">
+                        <c:forEach var="product" items="${listProduct}">
+                             <div class="pro">
+                                <form action="MainController">
+                                    <a href="MainController?action=ProductPage&productId=${product.productID}">
+                                        <img src="${product.image1}" alt="">
+                                        <div class="des">
+                                            <span>${product.brand}</span>
+                                            <h5>${product.name}</h5>
+                                            <div class="star">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                            </div>
+                                            <h4>$${product.price}</h4>
+                                        </div>
+                                    </a>
+                                    <input type="hidden" name="productID" value="${product.productID}">
+                                    <input type="hidden" name="quantity" value="1">
+                                    <button type="submit" name="action" value="AddCart">
+                                        <i class="fa fa-shopping-cart cart"></i>
+                                    </button>
+                                </form>
                             </div>
-                        </a>
-                        <input type="hidden" name="productID" value="<%= product.getProductID()%>">
-                        <input type="hidden" name="quantity" value="1">
-                        <button type="submit" name="action" value="AddCart">
-                            <i class="fa fa-shopping-cart cart"></i>
-                        </button>
-                    </form>
-                </div>
-                <%
-                            }
-                        }
-                    }
-                %>
-
+                        </c:forEach>
+                    </c:if>
+                </c:if>
             </div>
         </section>
 
