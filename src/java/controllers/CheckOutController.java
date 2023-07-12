@@ -6,7 +6,6 @@
 package controllers;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.time.Instant;
 import javax.servlet.ServletException;
@@ -65,8 +64,9 @@ public class CheckOutController extends HttpServlet {
                         request.setAttribute("MESSAGE", "Product out of stock");
                         return;
                     }
-                    // 
-                    total += product.getQuantity() * product.getPrice();
+                    // Update quantity to tblProduct
+//                    dao.updateQuantity(product.getProductID(), stock);
+//                    total += product.getQuantity() * product.getPrice();
                 }
                 // Table Order
                 OrderDAO orderDAO = new OrderDAO();
@@ -86,6 +86,7 @@ public class CheckOutController extends HttpServlet {
 
                         if (check) {
                             request.setAttribute("userID", userID);
+                            session.removeAttribute("CART");
                             url = SUCCESS;
                         }
                     }

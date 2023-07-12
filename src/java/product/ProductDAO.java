@@ -26,6 +26,7 @@ public class ProductDAO {
     private static final String GET_TOTAL_PRODUCT = "SELECT COUNT(productID) FROM tblProduct WHERE Status=1";
     private static final String GET_PRODUCT_QUANTITY = "SELECT quantity FROM tblProduct WHERE productID=? AND Status=1";
     private static final String UPDATE = "UPDATE tblProduct SET price=?, quantity=? WHERE productID=?";
+    private static final String UPDATE_QUANTITY = "UPDATE tblProduct SET quantity=? WHERE productID=?";
     private static final String DELETE = "UPDATE tblProduct SET Status=0 WHERE productID=?";
     private static final String ADD_PRODUCT = "INSERT INTO tblProduct(productID, name, price, quantity, Image1, Status) VALUES(?,?,?,?,?,1)";
     private static final String CHECK_DUPLICATE = "SELECT name FROM tblProduct WHERE productID=?";
@@ -253,6 +254,31 @@ public class ProductDAO {
             }
         }
         return checkUpdate;
+    }
+    
+    public void updateQuantity(String productID, int stock) throws SQLException {
+        boolean checkUpdate = false;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(UPDATE_QUANTITY);
+                ptm.setInt(1, stock);
+                ptm.setString(2, productID);
+                checkUpdate = ptm.executeUpdate() > 0 ? true : false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
     }
 
     public int getProductQuantity(String productID) throws SQLException, ClassNotFoundException {
